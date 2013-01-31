@@ -27,8 +27,9 @@ def get_auth_client():
     return client
 
 def public_posts(posts):
+
     client = get_auth_client()
-    
+
     index = 0
     print "post num:", len(posts)
     for post in posts:
@@ -63,4 +64,9 @@ def all2sina():
 
 
 if __name__ == '__main__':
-    all2sina()
+    while 1:
+        try:
+            all2sina()
+        except Excetion, e:
+            pass
+        time.sleep(3600)
