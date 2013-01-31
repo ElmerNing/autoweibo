@@ -73,7 +73,7 @@ def gplus_post():
         html = open("format.html", "r").read()
         html.replace("\r\n","\n")
         
-        fd = open("format.html", "w").write()
+        open("format.html", "w").write(html)
         
         gp = GplusParser()
         gp.feed(html)
