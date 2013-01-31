@@ -56,7 +56,7 @@ def all2sina():
         try:
             post = gplus_post()
             posts += post
-        except e:
+        except Exception,e:
             logger.info("gplus error:" + str(e))
 
     public_posts(posts)
