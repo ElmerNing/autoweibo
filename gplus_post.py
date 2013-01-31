@@ -39,7 +39,7 @@ class GplusParser2(SGMLParser):
 
     def start_img(self,attrs):
         if self.attrs_value(attrs, "class") == "ev aG":
-            self.post["image"] = self.attrs_value(attrs, "src")
+            self.post["image"] = r"https:" + self.attrs_value(attrs, "src")
 
     def start_span(self, attrs):
         if self.attrs_value(attrs, "class") == "gh Ni":

@@ -39,10 +39,9 @@ def public_posts(posts):
     for post in posts:
         try:
             if post["image"] == "":
-                a = 1
-                #client.post.statuses__update(status = post["text"].strip(), visible="2")
+                client.post.statuses__update(status = post["text"].strip(), visible="2")
             else:
-                client.upload.statues__upload(status = post["text"],visible="2", pic=urllib2.urlopen(r"https:"+post["image"]))
+                client.upload.statuses__upload(status = post["text"],visible="2", pic=urllib2.urlopen(post["image"]))
             time.sleep(10)
         except Exception,e:
             print "###", datetime.datetime.now(), "###"
@@ -57,7 +56,6 @@ def all2sina():
         from gplus_post import gplus_post
         post = gplus_post()
         posts += post
-        #print post
 
     public_posts(posts)
 
