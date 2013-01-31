@@ -43,7 +43,7 @@ def public_posts(posts):
         except Exception,e:
             logger.info("post error:" + str(e))
             logger.info(post)
-            suc = fasle
+            suc = Fasle
 
         print "post",index, suc
         index += 1
