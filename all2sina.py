@@ -35,10 +35,12 @@ client = get_auth_client()
 
 def public_posts(posts):
     """ public posts """
+
     for post in posts:
         try:
             if post["image"] == "":
-                client.post.statuses__update(status = post["text"].strip(), visible="2")
+                #client.post.statuses__update(status = post["text"].strip(), visible="2")
+                a = 0
             else:
                 client.upload.statues__upload(status = post["text"],visible="2", pic=urllib2.urlopen(r"https://"+post["image"]))
             time.sleep(10)
@@ -53,7 +55,7 @@ def all2sina():
         from gplus_post import gplus_post
         post = gplus_post()
         posts += post
-        print post
+        #print post
 
     public_posts(posts)
 
