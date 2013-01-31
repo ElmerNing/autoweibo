@@ -69,9 +69,12 @@ class GplusParser(HTMLParser):
 def gplus_post():
     posts = []
     for url in conf.GPLUS_URLS:
-        html = urllib2.urlopen(url=url, timeout = 30).read()
-        #html = open("format.html", "r").read()
-        open("format.html", "w").write(html)
+        #html = urllib2.urlopen(url=url, timeout = 30).read()
+        html = open("format.html", "r").read()
+        html.replace("\r\n","\n")
+        
+        fd = open("format.html", "w").write()
+        
         gp = GplusParser()
         gp.feed(html)
         print len(gp.post_all), gp.post_all
