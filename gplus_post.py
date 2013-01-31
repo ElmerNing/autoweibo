@@ -129,8 +129,8 @@ class GplusParser(HTMLParser):
 def gplus_post():
     posts = []
     for url in conf.GPLUS_URLS:
-        #html = urllib2.urlopen(url=url, timeout = 30).read()
-        html = open("format.html", "r").read()
+        html = urllib2.urlopen(url=url, timeout = 30).read()
+        #html = open("format.html", "r").read()
         #print html
         #open("format.html", "w").write(html)
         
