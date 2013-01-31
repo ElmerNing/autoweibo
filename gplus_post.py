@@ -67,17 +67,11 @@ class GplusParser(HTMLParser):
         return None
 
 def gplus_post():
-    
-    #proxy
-    proxy_support = urllib2.ProxyHandler({'http':'http://127.0.0.1:8087'})   
-    opener = urllib2.build_opener(proxy_support, urllib2.HTTPHandler)
-    urllib2.install_opener(opener)
-
-    #parser
     posts = []
     for url in conf.GPLUS_URLS:
         html = urllib2.urlopen(url=url, timeout = 30).read()
         #html = open("format.html", "r").read()
+        open("format.html", "w").write(html)
         gp = GplusParser()
         gp.feed(html)
         print len(gp.post_all), gp.post_all
