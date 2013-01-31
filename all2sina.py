@@ -41,7 +41,10 @@ def public_posts(posts):
             if post["image"] == "":
                 client.post.statuses__update(status = post["text"].strip(), visible="2")
             else:
-                client.upload.statuses__upload(status = post["text"],visible="2", pic=urllib2.urlopen(post["image"]))
+                if (post["text"] == ""):
+                    client.upload.statuses__upload(visible="2", pic=urllib2.urlopen(post["image"]))
+                else:
+                    client.upload.statuses__upload(status = post["text"],visible="2", pic=urllib2.urlopen(post["image"]))
             time.sleep(10)
         except Exception,e:
             print "###", datetime.datetime.now(), "###"
