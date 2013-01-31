@@ -1,6 +1,9 @@
-import httplib, urllib, urllib2, time, datetime
-import conf
+import httplib, urllib, urllib2, time, datetime, logging
 from weibo import APIClient
+import conf
+
+logging.basicConfig(filename='myapp.log',format='%(asctime)s %(message)s',level=logging.INFO)
+logger = logging.getLogger( __name__ )
 
 def get_code(url):
     """ get access token code """
@@ -10,12 +13,6 @@ def get_code(url):
     conn.request('POST','/oauth2/authorize',postdata, {'Referer':url,'Content-Type': 'application/x-www-form-urlencoded'})
     res = conn.getresponse()
     location = res.getheader('location')
-    print 'header=========', res.msg.headers
-    print 'msg===========',res.msg
-    print 'status===========',res.status
-    print 'reason===========',res.reason
-    print 'version===========',res.version
-    #fetch the access token code
     code = location.split('=')[1]
     conn.close()
     return code
@@ -24,41 +21,38 @@ def get_auth_client():
     """get a auth weibo api client"""
     client = APIClient(app_key=conf.APP_KEY, app_secret=conf.APP_SECRET, redirect_uri=conf.CALLBACK_URL)
     url = client.get_authorize_url()
-    
     code = get_code(url)
     r = client.request_access_token(code)
     client.set_access_token(r.access_token, r.expires_in)
-
     return client
 
-client = get_auth_client()
-
 def public_posts(posts):
-    """ public posts """
-
+    client = get_auth_client()
     for post in posts:
         try:
             if post["image"] == "":
                 client.post.statuses__update(status = post["text"].strip(), visible="2")
             else:
                 if (post["text"] == ""):
-                    client.upload.statuses__upload(visible="2", pic=urllib2.urlopen(post["image"]))
-                else:
-                    client.upload.statuses__upload(status = post["text"],visible="2", pic=urllib2.urlopen(post["image"]))
-            time.sleep(10)
+                    continue
+                client.upload.statuses__upload(status = post["text"],visible="2", pic=urllib2.urlopen(post["image"]))
+            logger.info("post suc")
+            logger.info(post)
         except Exception,e:
-            print "###", datetime.datetime.now(), "###"
-            print "error:", e
-            print "post:"
-            print post
+            logger.info("post error:" + str(e))
+            logger.info(post)
+        finally:
+            time.sleep(5)
             
 def all2sina():
     posts = []
-
     if conf.GPLUS_ENABLE:
         from gplus_post import gplus_post
-        post = gplus_post()
-        posts += post
+        try:
+            post = gplus_post()
+            posts += post
+        except e:
+            logger.info("gplus error:" + str(e))
 
     public_posts(posts)
 
