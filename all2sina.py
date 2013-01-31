@@ -1,4 +1,4 @@
-import httplib, urllib, urllib2, time
+import httplib, urllib, urllib2, time, datetime
 import conf
 from weibo import APIClient
 
@@ -39,13 +39,14 @@ def public_posts(posts):
     for post in posts:
         try:
             if post["image"] == "":
-                #client.post.statuses__update(status = post["text"].strip(), visible="2")
-                a = 0
+                client.post.statuses__update(status = post["text"].strip(), visible="2")
             else:
-                client.upload.statues__upload(status = post["text"],visible="2", pic=urllib2.urlopen(r"https://"+post["image"]))
+                client.upload.statues__upload(status = post["text"],visible="2", pic=urllib2.urlopen(r"https:"+post["image"]))
             time.sleep(10)
         except Exception,e:
-            print e
+            print "###", datetime.datetime.now(), "###"
+            print "error:", e
+            print "post:"
             print post
             
 def all2sina():
