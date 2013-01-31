@@ -136,7 +136,6 @@ def gplus_post():
         
         gp = GplusParser2()
         gp.feed(html)
-        print "post number:", len(gp.post_all)
         posts += gp.post_all
 
     return posts

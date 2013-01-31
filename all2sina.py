@@ -28,7 +28,11 @@ def get_auth_client():
 
 def public_posts(posts):
     client = get_auth_client()
+    
+    index = 0
+    print "post num:", len(posts)
     for post in posts:
+        suc = True
         try:
             if post["image"] == "":
                 client.post.statuses__update(status = post["text"].strip(), visible="2")
@@ -36,13 +40,14 @@ def public_posts(posts):
                 if (post["text"] == ""):
                     continue
                 client.upload.statuses__upload(status = post["text"],visible="2", pic=urllib2.urlopen(post["image"]))
-            logger.info("post suc")
-            logger.info(post)
         except Exception,e:
             logger.info("post error:" + str(e))
             logger.info(post)
-        finally:
-            time.sleep(5)
+            suc = fasle
+
+        print "post",index, suc
+        index += 1
+        time.sleep(5)
             
 def all2sina():
     posts = []
