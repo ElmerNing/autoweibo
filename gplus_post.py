@@ -126,27 +126,34 @@ class GplusParser(HTMLParser):
                 return attr[1]
         return None
 
+def posts_filter(posts):
+    filter_posts = []
+    for post in posts:
+        try:
+            if len(post["text"]) == 0 or len(post["text"]) > 70:
+                continue
+            if int(post["comments"]) > 4:
+                filter_posts << post
+                continue
+            if int(post["plus"]) > 8:
+                filter_posts << post
+                continue
+            if int(post["forward"]) > 4:
+                filter_posts << post
+                continue
+        except:
+            pass
+
 def gplus_post():
     posts = []
     for url in conf.GPLUS_URLS:
         html = urllib2.urlopen(url=url, timeout = 30).read()
-        #html = open("format.html", "r").read()
-        #print html
-        #open("format.html", "w").write(html)
-        
         gp = GplusParser2()
         gp.feed(html)
         posts += gp.post_all
-
-    return posts
-
+    return posts_filter(posts)
 
 if __name__ == '__main__':
     posts = gplus_post()
-    
-    for post in posts:
-        fd = sys.stdout
-        for k, v in post.items():
-            fd.write(k + ":\n")
-            fd.write(v)
-            fd.write("\n\n")
+
+    print posts
