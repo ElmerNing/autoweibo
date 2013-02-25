@@ -6,7 +6,7 @@ APP_KEY = '377217891' #youre app key
 APP_SECRET = '723905a68a35ca6e2f30016230337e8f' #youre app secret  
 CALLBACK_URL = 'http://6.helloelmer.sinaapp.com/callback'
 ACCOUNT = 'ffxhina@163.com'#your email address
-PASSWORD = sys.argv[1]#"longyang22" #'******'     #your pw
+PASSWORD = sys.argv[1] #'******'     #your pw
 
 #gplus
 GPLUS_ENABLE = True
